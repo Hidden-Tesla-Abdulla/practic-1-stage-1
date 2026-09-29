@@ -11,8 +11,8 @@ def CD(array):
     print("CD", *array)
 
 def parser(s):
-    if(s[0] == '$'):
-        if(s[1:] in os.environ):
+    if s[0] == '$':
+        if s[1:] in os.environ:
             return os.environ[s[1:].split()[0]]
         else:
             print("KeyError")
@@ -21,22 +21,25 @@ def parser(s):
 
 while True:
     answer = input(f"{username}@{hostname}:~$")
-    if(answer == "exit"):
-        break
-    else:
-        array = answer.split()
-        perem = []
-        for i in array[1:]:
-            perem.append(parser(i))
-        if(None in perem):
-            print("ArgError")
-            continue
+    array = answer.split()
+    perem = []
+    for i in array[1:]:
+        perem.append(parser(i))
+    if None in perem:
+        print("ArgError")
+        continue
 
-        if(array[0] == "ls"):
-            LS(perem)
+    if array[0] == "ls":
+        LS(perem)
 
-        elif(array[0] == "cd"):
-            CD(perem)
+    elif array[0] == "cd":
+        CD(perem)
 
+    elif array[0] == "exit":
+        if len(array) > 1:
+            print("Слишком много аргументов")
         else:
-            print("Такой команды нет")
+            break
+
+    else:
+        print("Такой команды нет")
